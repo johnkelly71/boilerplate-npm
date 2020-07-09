@@ -1,6 +1,10 @@
 {
 	"name": "fcc-learn-npm-package-json",
-	"author": "John Kelly",
+  "author": "John Kelly",
+  "description": "This is a free code camp exercise on npm",
+  "keywords": [ "freecodecamp", "npm", "exercise" ],
+  "license": "This is a freecodecamp exercise, maybe you should join freecodecamp before using this ?",
+  "version": "1.0.0",
 	"dependencies": {
 		"express": "^4.14.0"
 	},
