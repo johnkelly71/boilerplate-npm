@@ -30,7 +30,14 @@ app.get("/", myFileHandler);
 
 
 /** 4) Serve static assets  */
+const cssPath = __dirname + "/public";
 
+const myCSSHandler = function() {
+  express.static( cssPath);
+}
+
+//app.use(myCSSHandler); //app.use doesn't seem to take a function
+app.use(express.static(__dirname + "/public"));
 
 /** 5) serve JSON on a specific route */
 
