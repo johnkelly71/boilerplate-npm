@@ -40,10 +40,27 @@ const myCSSHandler = function() {
 app.use(express.static(__dirname + "/public"));
 
 /** 5) serve JSON on a specific route */
+const myObjHandler = function(req, res) {
+  const myObj = {"message": "Hello json"};
+  res.json( myObj);
+}
+
+//app.get("/json", myObjHandler);
 
 
 /** 6) Use the .env file to configure the app */
- 
+var response = "Hello World".toUpperCase(); // now becomes "HELLO WORLD"
+const myObjHandler = function(req, res) {
+  const myObj = {"message": "Hello json"};
+  res.json( myObj);
+}
+
+if (process.env.VAR_NAME === "allCaps") {
+  response = "Hello World".toUpperCase();
+} else {
+  response = "Hello World";
+}
+
  
 /** 7) Root-level Middleware - A logger */
 //  place it before all the routes !
