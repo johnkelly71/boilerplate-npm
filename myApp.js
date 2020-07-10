@@ -3,7 +3,19 @@ var express = require('express');
 var app = express();
 
 // --> 7)  Mount the Logger middleware here
+const fnLogger = function(req, res, next) {
+  //Find which verb, path and ip address of the request
+  const verb = req.method;
+  const path = req.path;
+  const ip = req.ip;
+  
+  //Log the request to the console
+  console.log( verb + " " + path + " - " + ip);
+  
+  next();
+}
 
+//app.use( fnLogger); 
 
 // --> 11)  Mount the body-parser middleware  here
 
@@ -65,21 +77,18 @@ const myEnvHandler = function(req, res) {
 /** 7) Root-level Middleware - A logger */
 //  place it before all the routes !
 
-const fnLogger = function(req, res, next) {
-  //Find which verb, path and ip address of the request
-  const verb = req.method;
-  const path = req.path;
-  const ip = req.ip;
-  
-  //Log the request to the console
-  console.log( verb + " " + path + " - ::ffff:" + ip);
-  next();
-}
-
-app.use( fnLogger); 
-
 
 /** 8) Chaining middleware. A Time server */
+app.get('/now', function(req, res, next) {
+  const timeNow = new Date().toString();
+  /*Instead of responding with the time we can also add any arbitrary property to the request object
+  and pass it to the next function by calling the next() method. This avoids using global variables.*/
+  req.time = {"time": timeNow};
+  next();
+}, function(req, res) {
+  res.send( req.time);
+});
+
 
 
 /** 9)  Get input from client - Route parameters */
