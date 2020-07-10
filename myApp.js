@@ -79,6 +79,7 @@ const myEnvHandler = function(req, res) {
 
 
 /** 8) Chaining middleware. A Time server */
+
 app.get('/now', function(req, res, next) {
   /*Instead of responding with the time we can also add any arbitrary property to the request object
   and pass it to the next function by calling the next() method. This avoids using global variables.*/
@@ -91,10 +92,35 @@ app.get('/now', function(req, res, next) {
 
 
 /** 9)  Get input from client - Route parameters */
+const route_path = '/:word/echo';
+app.get(route_path, function(req, res, next) {
+  req.word = { echo: res.name };
+  next();
+}, function(req, res) {
+  res.send( req.word);
+});
 
 
 /** 10) Get input from client - Query parameters */
 // /name?first=<firstname>&last=<lastname>
+/*Note: In the following exercise you are going to receive data from a POST request, at the same /name route path.
+If you want, you can use the method app.route(path).get(handler).post(handler). This syntax allows you to chain 
+different verb handlers on the same path route. You can save a bit of typing, and have cleaner code.*/
+const input_path = '/name';
+const fnQuery = function(req, res, next) {
+  req.name = { name: res.firstname + ' ' + res.lastname};
+  next();
+}
+
+const fnResponse = function(req, res) {
+  res.send( req.name);
+}
+
+app.route(input_path).get(fnQuery, fnResponse).post(fnQuery, fnResponse)
+
+app.get(route_path, fnQuery, fnResponse);
+
+
 
   
 /** 11) Get ready for POST Requests - the `body-parser` */
