@@ -65,6 +65,19 @@ const myEnvHandler = function(req, res) {
 /** 7) Root-level Middleware - A logger */
 //  place it before all the routes !
 
+const fnLogger = function(req, res, next) {
+  //Find which verb, path and ip address of the request
+  const verb = req.method;
+  const path = req.path;
+  const ip = req.ip;
+  
+  //Log the request to the console
+  console.log( verb + " " + path + " - ::ffff:" + ip);
+  next();
+}
+
+app.use( fnLogger); 
+
 
 /** 8) Chaining middleware. A Time server */
 
