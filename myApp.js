@@ -80,10 +80,9 @@ const myEnvHandler = function(req, res) {
 
 /** 8) Chaining middleware. A Time server */
 app.get('/now', function(req, res, next) {
-  const timeNow = new Date().toString();
   /*Instead of responding with the time we can also add any arbitrary property to the request object
   and pass it to the next function by calling the next() method. This avoids using global variables.*/
-  req.time = {"time": timeNow};
+  req.time = {"time" : new Date().toString() };
   next();
 }, function(req, res) {
   res.send( req.time);
