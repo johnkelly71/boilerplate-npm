@@ -1,5 +1,6 @@
 
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 
 // --> 7)  Mount the Logger middleware here
@@ -94,7 +95,7 @@ app.get('/now', function(req, res, next) {
 /** 9)  Get input from client - Route parameters */
 const route_path = '/:word/echo';
 app.get(route_path, function(req, res, next) {
-  req.word = { echo: res.name };
+  req.word = { echo: res.params.word };
   next();
 }, function(req, res) {
   res.send( req.word);
@@ -103,22 +104,27 @@ app.get(route_path, function(req, res, next) {
 
 /** 10) Get input from client - Query parameters */
 // /name?first=<firstname>&last=<lastname>
-/*Note: In the following exercise you are going to receive data from a POST request, at the same /name route path.
-If you want, you can use the method app.route(path).get(handler).post(handler). This syntax allows you to chain 
-different verb handlers on the same path route. You can save a bit of typing, and have cleaner code.*/
+
 const input_path = '/name';
 const fnQuery = function(req, res, next) {
-  req.name = { name: res.firstname + ' ' + res.lastname};
+  req.name = { name: req.query.first + ' ' + req.query.last };
   next();
 }
 
 const fnResponse = function(req, res) {
-  res.send( req.name);
+  // Use template literals to form a formatted string
+  res.json({
+    name: `${req.query.first} ${req.query.last}`
+  });
 }
 
+/*Note: In the following exercise you are going to receive data from a POST request, at the same /name route path.
+If you want, you can use the method app.route(path).get(handler).post(handler). This syntax allows you to chain 
+different verb handlers on the same path route. You can save a bit of typing, and have cleaner code.*/
+//app.get(route_path, fnQuery, fnResponse);
 app.route(input_path).get(fnQuery, fnResponse).post(fnQuery, fnResponse)
 
-app.get(route_path, fnQuery, fnResponse);
+
 
 
 
