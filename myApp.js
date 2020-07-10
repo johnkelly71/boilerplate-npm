@@ -45,22 +45,22 @@ const myObjHandler = function(req, res) {
   res.json( myObj);
 }
 
-//app.get("/json", myObjHandler);
+app.get("/json", myObjHandler);
 
 
 /** 6) Use the .env file to configure the app */
-var response = "Hello World".toUpperCase(); // now becomes "HELLO WORLD"
-const myObjHandler = function(req, res) {
-  const myObj = {"message": "Hello json"};
-  res.json( myObj);
+const myEnvHandler = function(req, res) {
+  if (process.env.MESSAGE_STYLE === "uppercase") {
+    const myObj = {"message": "Hello json".toUpperCase() };
+    res.json( myObj);
+  } else {
+    const myObj = {"message": "Hello json" };
+    res.json( myObj);
+  }
+
 }
 
-if (process.env.VAR_NAME === "allCaps") {
-  response = "Hello World".toUpperCase();
-} else {
-  response = "Hello World";
-}
-
+//app.get("/json", myEnvHandler);
  
 /** 7) Root-level Middleware - A logger */
 //  place it before all the routes !
