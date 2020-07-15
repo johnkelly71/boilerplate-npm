@@ -8,17 +8,25 @@
 
 /** 1) Install & Set up mongoose */
 var mongoose = require("mongoose");
+const express = require("express");
+
 // Add mongodb and mongoose to the project's package.json. Then require 
 // mongoose. Store your Mongo Atlas database URI in the private .env file 
 // as MONGO_URI. Connect to the database using the following syntax:
 //
-//mongoose.connect(<Your URI>, { useNewUrlParser: true, useUnifiedTopology: true }); 
-mongoose.connect("mongodb+srv://johnkelly71:<password>@cluster0.gecuj.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect(<Your URI>, { useNewUrlParser: true, useUnifiedTopology: true });
 
+/*mongoose.connect( process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(e => {
+console.log("MONGOERROR", e);
+}); */
 
+/* MONGO_URI is mongodb+srv://johnkelly71:john71@cluster0.gecuj.mongodb.net/test?retryWrites=true&w=majority */
+mongoose.connect( process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+ 
 
 /** # SCHEMAS and MODELS #
-/*  ====================== */
+/*  ====================== */ 
 
 /** 2) Create a 'Person' Model */
 
@@ -41,21 +49,29 @@ mongoose.connect("mongodb+srv://johnkelly71:<password>@cluster0.gecuj.mongodb.ne
 // `default` values. See the [mongoose docs](http://mongoosejs.com/docs/guide.html).
 
 // <Your code here >
-
+/* Free Code Camp doesn't pass if new schema is created on the same line */
 /*
-const schemaPerson = new mongoose.Schema({name: {type: String, required: true},
-                                          age: Number,
-                                          favouriteFoods: [String]
-                                         });
-const Person =  mongoose.model('Person', schemaPerson);
+const personSchema = new mongoose.Schema({
+                                        name: { type: String, required: true},
+                                        age: Number,
+                                        favouriteFoods: [String]
+                                        });
+
+const Person =  mongoose.model("Person", personSchema);
 */
 
+
+//const app = express();
 const Schema = mongoose.Schema;
 const personSchema = new Schema({
   name: { type: String, required: true },
   age: Number,
   favoriteFoods: [String]
 });
+
+const Person = mongoose.model("Person", personSchema);
+
+
 
 
 // **Note**: Glitch is a real server, and in real servers interactions with
