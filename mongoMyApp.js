@@ -63,14 +63,12 @@ const Person =  mongoose.model("Person", personSchema);
 
 //const app = express();
 const Schema = mongoose.Schema;
+
 const personSchema = new Schema({
   name: { type: String, required: true },
   age: Number,
   favoriteFoods: [String]
 });
-
-const Person = mongoose.model("Person", personSchema);
-
 
 
 
@@ -109,12 +107,31 @@ const Person = mongoose.model("Person", personSchema);
 //    ...do your stuff here...
 // });
 
-var createAndSavePerson = function(done) {
-  
-  done(null /*, data*/);
+var Person = mongoose.model("Person", personSchema);
 
+var createAndSavePerson = function(done) {
+
+  var john71 = new Person({
+    name: "Sean O Ceallaigh",
+    age: 49,
+    favoriteFoods: ["Scnitzel", "Coffee Cake"] 
+  });
+
+  john71.save(function(err, data) {
+    if (err) return done(err);
+    //Do Something if you succeed
+    done(null, data);
+  });
+   
 };
 
+/*
+createAndSavePerson(  function() {
+    console.log("Document john71 saved to database !");
+  }
+);
+*/
+ 
 /** 4) Create many People with `Model.create()` */
 
 // Sometimes you need to create many Instances of your Models,
@@ -124,11 +141,55 @@ var createAndSavePerson = function(done) {
 // Create many people using `Model.create()`, using the function argument
 // 'arrayOfPeople'.
 
-var createManyPeople = function(arrayOfPeople, done) {
-    
-    done(null/*, data*/);
-    
+// pass an array of docs
+
+var arrayOfPeople = [{
+    name: "Tom",
+    age: 20,
+    favoriteFoods: ["Eggs", "Toast"] }, 
+  {
+    name: "Dick",
+    age: 21,
+    favoriteFoods: ["Salmon", "Sprouts"] },
+  {
+    name: "Harry",
+    age: 22,
+    favoriteFoods: ["Pizza", "Ice Cream"] }
+  ];
+/*
+var createManyPeople = function(data) {
+  
+  Person.create(data, function (err) {
+    if (err) // ...
+
+    for (var i=1; i<arguments.length; ++i) {
+        var newDoc = arguments[i];
+        // do some stuff with candy
+        console.log("Document " + newDoc.name + "Created to database !");
+    }
+  });
+
 };
+ 
+createManyPeople(arrayOfPeople);
+*/
+
+
+var createManyPeople = function(arrayOfPeople, done) {
+  Person.create(arrayOfPeople, function (err, people) {
+    if (err) return console.log(err);
+      //If no error do something
+      for (var i=1; i<arguments.length; ++i) {
+        var newDoc = arguments[i];
+        // do some stuff with candy
+        console.log("Document " + newDoc.name + "Created to database !");
+      }
+      done(null, people);
+  });
+};
+
+
+
 
 /** # C[R]UD part II - READ #
 /*  ========================= */
