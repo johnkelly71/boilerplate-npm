@@ -154,7 +154,11 @@ var arrayOfPeople = [{
   {
     name: "Harry",
     age: 22,
-    favoriteFoods: ["Pizza", "Ice Cream"] }
+    favoriteFoods: ["Pizza", "Ice Cream"] },
+  {
+    name: "Mary",
+    age: 56,
+    favoriteFoods: ["Pork", "Cake"] }
   ];
 /*
 var createManyPeople = function(data) {
@@ -360,8 +364,12 @@ var removeById = function(personId, done) {
 
 var removeManyPeople = function(done) {
   var nameToRemove = "Mary";
-
-  done(null/*, data*/);
+  Person.remove({name: nameToRemove}, function (err, docFound) {
+    if (err) return console.log(err);
+    //If success
+    console.log(docFound);
+    done(null, docFound);
+  });
 };
 
 /** # C[R]UD part V -  More about Queries # 
