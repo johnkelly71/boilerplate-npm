@@ -390,11 +390,24 @@ var removeManyPeople = function(done) {
 // Chain `.find()`, `.sort()`, `.limit()`, `.select()`, and then `.exec()`,
 // passing the `done(err, data)` callback to it.
 
-var queryChain = function(done) {
+var queryChain = function(done) { 
   var foodToSearch = "burrito";
-  
-  done(null/*, data*/);
+
+  Person.find({ favoriteFoods: foodToSearch })
+    .sort({ name: 1 })
+    .limit(2)
+    .select({ age: 0 })
+    .exec(function(err, docFound) {
+      if (err) return console.log(err);
+      //If success
+      console.log(docFound);
+      done(null, docFound);
+    });
+   
 };
+
+
+//done(err, data)
 
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !
