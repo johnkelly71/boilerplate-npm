@@ -339,8 +339,13 @@ var findAndUpdate = function(personName, done) {
 
 var removeById = function(personId, done) {
   
-  done(null/*, data*/);
-    
+  Person.findByIdAndRemove( personId, function (err, docFound) {
+    if (err) return console.log(err);
+    //If success
+    console.log(docFound); 
+    done(null, docFound);
+  });
+     
 };
 
 /** 11) Delete many People */
