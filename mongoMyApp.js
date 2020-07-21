@@ -323,10 +323,7 @@ var findAndUpdate = function(personName, done) {
       done(null, docFound);
   });
 
- 
-  done(null/*, data*/);
-  
-};  
+};
 
 
 
