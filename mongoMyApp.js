@@ -311,8 +311,10 @@ var findEditThenSave = function(personId, done) {
 // to `findOneAndUpdate()`. By default the method
 // passes the unmodified object to its callback.
 
+
 var findAndUpdate = function(personName, done) {
   var ageToSet = 20;
+  
     Person.findOneAndUpdate({name: personName}, {age: ageToSet}, { new: true }, function (err, docFound) {
       if (err) return console.log(err);
       //If success
@@ -321,8 +323,10 @@ var findAndUpdate = function(personName, done) {
       done(null, docFound);
   });
 
+ 
   done(null/*, data*/);
-}; 
+  
+};  
 
 
 
